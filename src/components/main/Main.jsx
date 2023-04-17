@@ -4,7 +4,7 @@ import Video from "./Video";
 
 const Main = () => {
   return (
-    <div className="main">
+    <div className="main w-[100%]">
       <ButtonList />
       <Video />
     </div>

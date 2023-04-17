@@ -7,12 +7,25 @@ const Sibebar = () => {
   if (isMenuOpen) return null;
   return (
     <div className="mr-14 ">
+      <ul className="mb-6">
+        <li>Home</li>
+        <li>Shorts</li>
+        <li>Videos</li>
+        <li>Live</li>
+      </ul>
       <h1 className="font-bold">Subscriptions</h1>
-      <ul>
-        <li>sports</li>
-        <li>live</li>
-        <li>news</li>
-        <li>dev</li>
+      <ul className="mb-6">
+        <li>Music</li>
+        <li>Sports</li>
+        <li>Gaming</li>
+        <li>Movies</li>
+      </ul>
+      <h1 className="font-bold">Watch later</h1>
+      <ul className="mb-6">
+        <li>Music</li>
+        <li>Sports</li>
+        <li>Gaming</li>
+        <li>Movies</li>
       </ul>
     </div>
   );

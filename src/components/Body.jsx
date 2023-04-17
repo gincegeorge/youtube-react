@@ -4,7 +4,7 @@ import Main from "./main/Main";
 
 const Body = () => {
   return (
-    <div className="mx-auto flex max-w-7xl p-6">
+    <div className="mx-auto flex p-6">
       <Sidebar />
       <Main />
     </div>
