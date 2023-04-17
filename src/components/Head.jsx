@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { Link } from "react-router-dom";
 
 const Head = () => {
   const dispatch = useDispatch();
@@ -22,13 +23,13 @@ const Head = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png"
             alt="menu"
           />
-          <a href="#" className="ml-2 p-1.5">
-            <img
-              className="h-16"
-              src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png"
-              alt="logo"
-            />
-          </a>
+          {/* <Link to="/"> */}
+          <img
+            className="h-16"
+            src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png"
+            alt="logo"
+          />
+          {/* </Link> */}
         </div>
         <div className="hidden lg:flex">
           <input
