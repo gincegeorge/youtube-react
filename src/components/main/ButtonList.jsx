@@ -2,7 +2,20 @@ import React from "react";
 import Button from "./Button";
 
 const ButtonList = () => {
-  const list = ["All", "News", "Tech", "football", "cricket", "Cooking", "Valentine", "songs", "gaming"];
+  const list = [
+    "All",
+    "Trending",
+    "News",
+    "Tech",
+    "football",
+    "New",
+    "cricket",
+    "Cooking",
+    "Valentine",
+    "songs",
+    "gaming",
+    "Latest",
+  ];
   return (
     <div className="mb-8">
       {list.map((element) => {

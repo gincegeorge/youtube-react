@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 const Sibebar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
-  if (isMenuOpen) return null;
+  if (!isMenuOpen) return null;
+  
   return (
     <div className="mr-14 ">
       <ul className="mb-6">

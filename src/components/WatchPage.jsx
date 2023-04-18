@@ -18,7 +18,13 @@ function WatchPage() {
 
   return (
     <div>
-      <ReactPlayer url={videoLink} width="854px" height="480px" Autoplay muted />
+      <ReactPlayer
+        url={videoLink}
+        width="854px"
+        height="480px"
+        playing={true}
+        
+      />
     </div>
   );
 }

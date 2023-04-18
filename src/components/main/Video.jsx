@@ -29,8 +29,8 @@ const Video = () => {
   return (
     <div className="grid grid-cols-5 gap-x-4 gap-y-10">
       {videos.map((video) => (
-        <Link to={"watch?v=" + video.id}>
-          <VideoCard key={video?.id} info={video} />
+        <Link to={"watch?v=" + video.id} key={video?.id}>
+          <VideoCard info={video} />
         </Link>
       ))}
     </div>
