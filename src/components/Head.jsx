@@ -8,21 +8,19 @@ import axios from "axios";
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     //DEBOUNCING
     //make an api call after every key press
     //but if the difference is less than 200 ms decline the api call
-    const timer = setTimeout(() => getSearchSuggessions(), 200);
+    const timer = setTimeout(() => getSearchSuggestions(), 200);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const getSearchSuggessions = async () => {
-    console.log("API call - ", searchQuery);
-    console.log(YOUTUBE_SEARCH_API + searchQuery);
+  const getSearchSuggestions = async () => {
     axios.get(YOUTUBE_SEARCH_API + searchQuery).then((responce) => {
-      console.log(responce.data[1]);
       setSearchResults(responce.data[1]);
     });
   };
@@ -33,8 +31,6 @@ const Head = () => {
     dispatch(toggleMenu());
   };
 
-  console.log(searchResults.length, "------------------");
-
   return (
     <header className="drop-shadow-md">
       <nav
@@ -44,7 +40,7 @@ const Head = () => {
         <div className="flex lg:flex-1 items-center">
           <img
             onClick={() => toggleMenuHandler()}
-            className="h-8 cursor-pointer"
+            className="h-8 cursor-pointer mr-4"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png"
             alt="menu"
           />
@@ -55,31 +51,53 @@ const Head = () => {
           />
         </div>
         <div className="overflow-x-hidden relative">
-          <div>
+          <div className="flex">
             <input
               type="text"
               placeholder="Search"
               className="border py-2 px-4 w-[600px] rounded-l-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setShowSuggestions(false)}
             />
-            <button className="border px-4 py-2 rounded-r-full">Search</button>
+            <button className="border px-4 py-[9px] rounded-r-full">
+              <img
+                className="w-5"
+                src="https://www.freeiconspng.com/uploads/search-icon-png-5.png"
+              />
+            </button>
           </div>
-          {searchResults.length > 0 ? (
-            <div className="search-results fixed bg-white py-3 px-5 rounded-lg  w-2/5">
-              <ul>{searchResults.map((element)=><li className="pb-1">{element}</li>)}</ul>
+          {(searchResults.length > 0) & showSuggestions ? (
+            <div className="search-results fixed bg-white p-2 rounded-lg  w-2/5">
+              <ul>
+                {searchResults.map((element) => (
+                  <li className="py-[5px] px-2 hover:bg-gray-100" key={element}>
+                    {" "}
+                    <img
+                      className="w-[18px] inline mr-2"
+                      src="https://www.freeiconspng.com/uploads/search-icon-png-5.png"
+                    />
+                    {element}
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : (
             ""
           )}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="flex items-center text-sm font-semibold leading-6 text-gray-900 border border-black p-3 rounded-full w-35 h-12"
+          >
             <img
-              className="h-10"
-              src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
+              className=" mr-2 w-7 h-7"
+              src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
               alt="user-icon"
-            />
+            />{" "}
+            Sign in
           </a>
         </div>
       </nav>
