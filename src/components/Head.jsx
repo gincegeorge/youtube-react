@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
-import { Link } from "react-router-dom";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import axios from "axios";
+import { cachedResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const searchCache = useSelector((store) => store.search);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     //DEBOUNCING
     //make an api call after every key press
     //but if the difference is less than 200 ms decline the api call
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+
+    //cache search results
+
+    const timer = setTimeout(() => {
+      if (searchQuery.length === 0) {
+        return;
+      }
+      if (searchCache[searchQuery]) {
+        setSearchResults(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -22,10 +38,17 @@ const Head = () => {
   const getSearchSuggestions = async () => {
     axios.get(YOUTUBE_SEARCH_API + searchQuery).then((responce) => {
       setSearchResults(responce.data[1]);
+
+      console.log(searchQuery, responce.data[1]);
+
+      // update cache
+      dispatch(
+        cachedResults({
+          [searchQuery]: responce.data[1],
+        })
+      );
     });
   };
-
-  const dispatch = useDispatch();
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -40,8 +63,8 @@ const Head = () => {
         <div className="flex lg:flex-1 items-center">
           <img
             onClick={() => toggleMenuHandler()}
-            className="h-8 cursor-pointer mr-4"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png"
+            className="h-7 cursor-pointer mr-5"
+            src="https://cdn-icons-png.flaticon.com/512/3917/3917215.png"
             alt="menu"
           />
           <img
@@ -90,13 +113,13 @@ const Head = () => {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
             href="#"
-            className="flex items-center text-sm font-semibold leading-6 text-gray-900 border border-black p-3 rounded-full w-35 h-12"
+            className="flex items-center text-sm font-semibold leading-6 text-gray-900 border border-black p-3 rounded-full w-35 h-10"
           >
             <img
               className=" mr-2 w-7 h-7"
               src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
               alt="user-icon"
-            />{" "}
+            />
             Sign in
           </a>
         </div>
